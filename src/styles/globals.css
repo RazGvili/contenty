@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    @apply bg-gradient-to-r from-[#16222A] to-[#3A6073]
+
+}
