@@ -11,6 +11,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
     <ClerkProvider {...pageProps}>
       <Head>
         <title>Contenty</title>
+        <meta name="url" content="https://contenty.vercel.app/" />
         <meta name="description" content="it's all about the content" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

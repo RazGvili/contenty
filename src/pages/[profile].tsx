@@ -34,7 +34,8 @@ const Profile: NextPage = () => {
     <>
       <Head>
         <title>{userProfile?.userName}</title>
-        <meta name="profile" content="TBD" />
+        <meta name="profile" content={"Give me all your content"} />
+        <meta name="url" content="https://contenty.vercel.app/" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
