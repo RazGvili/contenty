@@ -75,12 +75,12 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
  */
 export const createTRPCRouter = t.router;
 
-export const timingMiddleware = t.middleware(async ({ next, ctx }) => {
-  console.time("timingMiddleware");
-  const result = await next({ ctx });
-  console.timeEnd("timingMiddleware");
-  return result;
-});
+// export const timingMiddleware = t.middleware(async ({ next, ctx }) => {
+//   console.time("timingMiddleware");
+//   const result = await next({ ctx });
+//   console.timeEnd("timingMiddleware");
+//   return result;
+// });
 
 /**
  * Public (unauthenticated) procedure
@@ -89,7 +89,8 @@ export const timingMiddleware = t.middleware(async ({ next, ctx }) => {
  * guarantee that a user querying is authorized, but you can still access user session data if they
  * are logged in.
  */
-export const publicProcedure = t.procedure.use(timingMiddleware);
+// export const publicProcedure = t.procedure.use(timingMiddleware);
+export const publicProcedure = t.procedure;
 
 const isAuthed = t.middleware(({ next, ctx }) => {
   if (!ctx.userId) {
@@ -103,4 +104,5 @@ const isAuthed = t.middleware(({ next, ctx }) => {
   });
 });
 
-export const privateProcedure = t.procedure.use(timingMiddleware).use(isAuthed);
+// export const privateProcedure = t.procedure.use(timingMiddleware).use(isAuthed);
+export const privateProcedure = t.procedure.use(isAuthed);

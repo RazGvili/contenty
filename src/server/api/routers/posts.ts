@@ -6,8 +6,9 @@ import {
 } from "~/server/api/trpc";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
-import { TRPCClientError } from "@trpc/client";
 import { TRPCError } from "@trpc/server";
+import { clerkClient } from "@clerk/nextjs/server";
+import type { Prisma } from "@prisma/client";
 
 // Create a new ratelimiter, that allows 5 requests per 1 m
 const ratelimit = new Ratelimit({
@@ -22,12 +23,19 @@ const ratelimit = new Ratelimit({
   prefix: "@upstash/ratelimit",
 });
 
-const getAll = publicProcedure.query(async ({ ctx }) => {
-  const posts = await ctx.prisma.post.findMany({
+const zGetAll = z.object({ userId: z.string().length(32) }).optional();
+
+const getAll = publicProcedure.input(zGetAll).query(async ({ ctx, input }) => {
+  const options: Prisma.PostFindManyArgs = {
     take: 100,
     orderBy: { createdAt: "desc" },
-  });
+  };
 
+  if (input?.userId) {
+    options.where = { userId: input.userId };
+  }
+
+  const posts = await ctx.prisma.post.findMany(options);
   return posts;
 });
 
@@ -36,19 +44,24 @@ const zCreate = z.object({ content: z.string().min(1).max(280) });
 const create = privateProcedure
   .input(zCreate)
   .mutation(async ({ ctx, input }) => {
-    const authorId = ctx.userId;
+    const userId = ctx.userId;
 
-    const { success } = await ratelimit.limit(authorId);
+    const { success } = await ratelimit.limit(userId);
     if (!success) {
       throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
     }
 
-    const { content } = input;
+    const user = await clerkClient.users.getUser(userId);
+    const { profileImageUrl, username, firstName } = user;
+    const userName = username || firstName || "-";
 
+    const { content } = input;
     const post = await ctx.prisma.post.create({
       data: {
-        authorId,
+        userId,
         content,
+        profileImageUrl,
+        userName,
       },
     });
 
