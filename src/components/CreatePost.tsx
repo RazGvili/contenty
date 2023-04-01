@@ -15,6 +15,7 @@ export const CreatePost = () => {
 
   const onPostSuccesses = async () => {
     setInput("");
+    setLink("");
     await ctx.posts.invalidate();
     toast("Good Job!", {
       icon: "👏",
@@ -95,9 +96,7 @@ export const CreatePost = () => {
                 onClick={onPost}
                 disabled={isPosting || isEmpty}
                 className={classNames({
-                  "w-28": true,
-                  // "opacity-0": isEmpty,
-                  // "opacity-100": !isEmpty,
+                  "w-40": true,
                   btn: true,
                   "btn-sm": true,
                   glass: true,
