@@ -4,11 +4,12 @@ import Link from "next/link";
 import { ProfileImg, ProfileImgPlaceholder } from "./ProfileImage";
 import type { FC, PropsWithChildren } from "react";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
+import { useUser } from "@clerk/nextjs";
 
 const FeedSkeleton = () => {
   return (
     <>
-      {[...Array(4).keys()].map((n) => {
+      {[...Array(5).keys()].map((n) => {
         return (
           <div
             key={n}
@@ -93,9 +94,11 @@ const PostsList: FC<PostsListProps> = ({ posts }) => {
 };
 
 const FeedContainer: FC<PropsWithChildren> = ({ children }) => {
-  return (
-    <div className="max-h-[calc(100%-250px)] overflow-auto">{children}</div>
-  );
+  const { isSignedIn } = useUser();
+
+  const heightFromTop = isSignedIn ? "250px" : "70px";
+  const className = `max-h-[calc(100%-${heightFromTop})] overflow-auto`;
+  return <div className={className}>{children}</div>;
 };
 
 interface FeedProps {
