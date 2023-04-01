@@ -44,14 +44,15 @@ export const CreatePost = () => {
   }
 
   return (
-    <div className="flex justify-center border-b border-slate-500 p-4">
+    <div className="flex justify-center border-b-2 border-slate-500 p-2 pt-4">
       <div className=" w-full  max-w-[500px]">
         <div className="flex items-center gap-3">
           <div className="flex flex-1 flex-col gap-3">
             <div className="form-control w-full ">
               <input
+                autoFocus
                 value={input}
-                placeholder="A cool book/video/course/other you liked"
+                placeholder="Enter a cool book/video/course/other"
                 className={classNames({
                   input: true,
                   "input-bordered": true,
@@ -77,7 +78,7 @@ export const CreatePost = () => {
 
             <input
               value={link}
-              placeholder="Optional link"
+              placeholder="Paste link (optional)"
               className={classNames({
                 input: true,
                 "input-bordered": true,
