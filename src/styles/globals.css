@@ -5,4 +5,5 @@
 body {
     @apply bg-gradient-to-r from-[#16222A] to-[#3A6073];
     overscroll-behavior: none;
+    color: #a6adbb
 }

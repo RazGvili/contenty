@@ -94,7 +94,7 @@ const PostsList: FC<PostsListProps> = ({ posts }) => {
 
 const FeedContainer: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <div className="max-h-[calc(100%-300px)] overflow-auto">{children}</div>
+    <div className="max-h-[calc(100%-250px)] overflow-auto">{children}</div>
   );
 };
 

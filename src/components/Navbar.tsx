@@ -42,7 +42,7 @@ export const Navbar = () => {
   );
 
   return (
-    <div className="navbar border-b border-slate-500">
+    <div className="navbar border-b-4 border-slate-500">
       <div className="flex-1 items-center gap-1">
         <Link href={"/"}>
           <div className="btn-ghost btn text-xl normal-case">Contenty </div>

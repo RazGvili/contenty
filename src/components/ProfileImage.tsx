@@ -27,7 +27,7 @@ export const ProfileImg = ({ url, loading, userId }: ProfileImgProps) => {
   }
 
   return (
-    <Link href={userId}>
+    <Link href={userId} className="min-w-[56px]">
       <Image
         src={url}
         alt="profile image"

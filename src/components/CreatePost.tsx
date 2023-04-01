@@ -44,9 +44,9 @@ export const CreatePost = () => {
   }
 
   return (
-    <div className="border-b border-slate-500 p-4">
-      <div className="flex justify-between">
-        <div className="flex w-full items-center gap-3">
+    <div className="flex justify-center border-b border-slate-500 p-4">
+      <div className=" w-full  max-w-[500px]">
+        <div className="flex items-center gap-3">
           <div className="flex flex-1 flex-col gap-3">
             <div className="form-control w-full ">
               <input
@@ -54,6 +54,7 @@ export const CreatePost = () => {
                 placeholder="A cool book/video/course/other you liked"
                 className={classNames({
                   input: true,
+                  "input-bordered": true,
                   "input-sm": true,
                   "w-full": true,
                   "bg-transparent": true,
@@ -79,6 +80,7 @@ export const CreatePost = () => {
               placeholder="Optional link"
               className={classNames({
                 input: true,
+                "input-bordered": true,
                 "input-sm": true,
                 "w-full": true,
                 "bg-transparent": true,
@@ -92,19 +94,28 @@ export const CreatePost = () => {
               }}
             />
             <div className="flex justify-center">
-              <button
-                onClick={onPost}
-                disabled={isPosting || isEmpty}
+              <div
                 className={classNames({
-                  "w-40": true,
-                  btn: true,
-                  "btn-sm": true,
-                  glass: true,
-                  loading: isPosting,
+                  collapse: true,
+                  "collapse-open": !isEmpty,
                 })}
               >
-                {isPosting ? "Loading..." : "Post"}
-              </button>
+                <div className="collapse-content">
+                  <button
+                    onClick={onPost}
+                    disabled={isPosting}
+                    className={classNames({
+                      "w-40": true,
+                      btn: true,
+                      "btn-sm": true,
+                      glass: true,
+                      loading: isPosting,
+                    })}
+                  >
+                    {isPosting ? "Loading..." : "Post"}
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
