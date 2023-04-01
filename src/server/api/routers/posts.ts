@@ -69,7 +69,9 @@ const create = privateProcedure
         description,
         profileImageUrl,
         userName,
-        link,
+
+        // TODO: handle better
+        link: link || "",
       },
     });
 
