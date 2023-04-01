@@ -12,11 +12,11 @@ generator client {
 }
 
 model Post {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    content         String @db.VarChar(255)
+    id              String   @id @default(cuid())
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+    description     String   @db.VarChar(100)
+    link            String   @db.LongText
     userId          String
     userName        String
     profileImageUrl String

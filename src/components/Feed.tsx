@@ -3,6 +3,7 @@ import { formatRelative } from "date-fns";
 import Link from "next/link";
 import { ProfileImg, ProfileImgPlaceholder } from "./ProfileImage";
 import type { FC, PropsWithChildren } from "react";
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
 
 const FeedSkeleton = () => {
   return (
@@ -37,24 +38,34 @@ const getRelativeTime = (date: Date) => {
 };
 
 const PostRow = ({ post }: { post: Post }) => {
-  const { createdAt } = post;
+  const { createdAt, profileImageUrl, userId, userName, description, link } =
+    post;
   const relativeTime = getRelativeTime(createdAt);
 
   return (
     <div className="flex gap-3 border-b border-slate-500 p-4">
-      <ProfileImg
-        url={post.profileImageUrl}
-        loading={false}
-        userId={post.userId}
-      />
+      <ProfileImg url={profileImageUrl} loading={false} userId={userId} />
 
       <div className="flex flex-col gap-2">
         <div>
-          <Link href={`${post.userName}`}>{post.userName}</Link> ·{" "}
+          <Link href={`${userName}`}>{userName}</Link> ·{" "}
           <span className="font-thin">{relativeTime}</span>
         </div>
-        <div>{post.content}</div>
+        <div>{description}</div>
       </div>
+
+      {link && (
+        <div className="ml-auto flex items-center">
+          <a
+            target="_blank"
+            href={link}
+            rel="noopener noreferrer"
+            className="btn-ghost btn-sm btn-square btn bg-transparent"
+          >
+            <ArrowTopRightOnSquareIcon className="h-6 w-6 border-slate-500" />
+          </a>
+        </div>
+      )}
     </div>
   );
 };
@@ -83,7 +94,7 @@ const PostsList: FC<PostsListProps> = ({ posts }) => {
 
 const FeedContainer: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <div className="max-h-[calc(100%-200px)] overflow-auto">{children}</div>
+    <div className="max-h-[calc(100%-300px)] overflow-auto">{children}</div>
   );
 };
 

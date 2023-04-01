@@ -23,7 +23,7 @@ const ratelimit = new Ratelimit({
   prefix: "@upstash/ratelimit",
 });
 
-const zGetAll = z.object({ userId: z.string().length(32) }).optional();
+const zGetAll = z.object({ userId: z.string() }).optional();
 
 const getAll = publicProcedure.input(zGetAll).query(async ({ ctx, input }) => {
   const options: Prisma.PostFindManyArgs = {
@@ -39,7 +39,10 @@ const getAll = publicProcedure.input(zGetAll).query(async ({ ctx, input }) => {
   return posts;
 });
 
-const zCreate = z.object({ content: z.string().min(1).max(280) });
+const zCreate = z.object({
+  description: z.string().min(1).max(100),
+  link: z.string().default("").optional(),
+});
 
 const create = privateProcedure
   .input(zCreate)
@@ -52,16 +55,21 @@ const create = privateProcedure
     }
 
     const user = await clerkClient.users.getUser(userId);
+    if (!user) {
+      throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+    }
+
     const { profileImageUrl, username, firstName } = user;
     const userName = username || firstName || "-";
 
-    const { content } = input;
+    const { description, link } = input;
     const post = await ctx.prisma.post.create({
       data: {
         userId,
-        content,
+        description,
         profileImageUrl,
         userName,
+        link,
       },
     });
 

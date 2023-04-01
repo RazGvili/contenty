@@ -11,6 +11,7 @@ export const CreatePost = () => {
 
   const { isSignedIn } = useUser();
   const [input, setInput] = useState("");
+  const [link, setLink] = useState("");
 
   const onPostSuccesses = async () => {
     setInput("");
@@ -31,10 +32,11 @@ export const CreatePost = () => {
   });
 
   const onPost = () => {
-    mutate({ content: input });
+    mutate({ description: input, link });
   };
 
   const isEmpty = input === "";
+  const isMaxLen = input.length >= 100;
 
   if (!isSignedIn) {
     return <div className="w-full" />;
@@ -44,34 +46,68 @@ export const CreatePost = () => {
     <div className="border-b border-slate-500 p-4">
       <div className="flex justify-between">
         <div className="flex w-full items-center gap-3">
-          {/* TODO: use form lib */}
-          <input
-            value={input}
-            placeholder="Only fantastic content goes here"
-            className="w-full bg-transparent  outline-none"
-            onChange={(e) => setInput(e.target.value)}
-            disabled={isPosting}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !isEmpty) {
-                onPost();
-              }
-            }}
-          />
+          <div className="flex flex-1 flex-col gap-3">
+            <div className="form-control w-full ">
+              <input
+                value={input}
+                placeholder="A cool book/video/course/other you liked"
+                className={classNames({
+                  input: true,
+                  "input-sm": true,
+                  "w-full": true,
+                  "bg-transparent": true,
+                  "input-error": isMaxLen,
+                })}
+                onChange={(e) => setInput(e.target.value)}
+                disabled={isPosting}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !isEmpty) {
+                    onPost();
+                  }
+                }}
+              />
+              {isMaxLen && (
+                <label className="label">
+                  <span className="label-text-alt">Max of 100 characters</span>
+                </label>
+              )}
+            </div>
 
-          <button
-            onClick={onPost}
-            disabled={isPosting || isEmpty}
-            className={classNames({
-              "opacity-0": isEmpty,
-              "opacity-100": !isEmpty,
-              btn: true,
-              "btn-sm": true,
-              glass: true,
-              loading: isPosting,
-            })}
-          >
-            {isPosting ? "Loading..." : "Post"}
-          </button>
+            <input
+              value={link}
+              placeholder="Optional link"
+              className={classNames({
+                input: true,
+                "input-sm": true,
+                "w-full": true,
+                "bg-transparent": true,
+              })}
+              onChange={(e) => setLink(e.target.value)}
+              disabled={isPosting}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !isEmpty) {
+                  onPost();
+                }
+              }}
+            />
+            <div className="flex justify-center">
+              <button
+                onClick={onPost}
+                disabled={isPosting || isEmpty}
+                className={classNames({
+                  "w-28": true,
+                  // "opacity-0": isEmpty,
+                  // "opacity-100": !isEmpty,
+                  btn: true,
+                  "btn-sm": true,
+                  glass: true,
+                  loading: isPosting,
+                })}
+              >
+                {isPosting ? "Loading..." : "Post"}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
