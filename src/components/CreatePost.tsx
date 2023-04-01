@@ -42,38 +42,36 @@ export const CreatePost = () => {
 
   return (
     <div className="border-b border-slate-500 p-4">
-      <div className="flex items-center justify-between">
-        <div className="flex w-full gap-3">
+      <div className="flex justify-between">
+        <div className="flex w-full items-center gap-3">
           {/* TODO: use form lib */}
-          <div>
-            <input
-              value={input}
-              placeholder="Content goes here"
-              className="bg-transparent p-4 outline-none"
-              onChange={(e) => setInput(e.target.value)}
-              disabled={isPosting}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !isEmpty) {
-                  onPost();
-                }
-              }}
-            />
+          <input
+            value={input}
+            placeholder="Only fantastic content goes here"
+            className="w-full bg-transparent  outline-none"
+            onChange={(e) => setInput(e.target.value)}
+            disabled={isPosting}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !isEmpty) {
+                onPost();
+              }
+            }}
+          />
 
-            <button
-              onClick={onPost}
-              disabled={isPosting || isEmpty}
-              className={classNames({
-                "opacity-0": isEmpty,
-                "opacity-100": !isEmpty,
-                btn: true,
-                "btn-sm": true,
-                glass: true,
-                loading: isPosting,
-              })}
-            >
-              {isPosting ? "Loading..." : "Post"}
-            </button>
-          </div>
+          <button
+            onClick={onPost}
+            disabled={isPosting || isEmpty}
+            className={classNames({
+              "opacity-0": isEmpty,
+              "opacity-100": !isEmpty,
+              btn: true,
+              "btn-sm": true,
+              glass: true,
+              loading: isPosting,
+            })}
+          >
+            {isPosting ? "Loading..." : "Post"}
+          </button>
         </div>
       </div>
     </div>

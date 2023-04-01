@@ -67,7 +67,7 @@ const PostsList: FC<PostsListProps> = ({ posts }) => {
   if (!posts.length) {
     return (
       <div className="flex justify-center p-6">
-        So sad around here... Post something and save the say
+        So sad around here... Post something to save the day
       </div>
     );
   }
